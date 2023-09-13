@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Тестовая страница</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <button id="connect-button">Connect with socket</button>
+
+    <input type="text" id="message-text" />
+
+    <button id="send-message-button">Send message by ws</button>
+
+    <script>
+        var ws;
+
+        $('#connect-button').click(
+            function () {
+                ws = new WebSocket('ws://localhost:8000/market');
+                ws.onmessage = function (event) {
+                    console.log(event.data)
+                };
+            }
+        );
+
+        $('#send-message-button').click(
+            function () {
+                var message = $('#message-text').val();
+                ws.send(JSON.stringify({
+                    "message": message,
+                }))
+            }
+        );
+    </script>
+</body>
+</html>
